@@ -9,8 +9,6 @@ public class tempP1Health : MonoBehaviour
     public PlayerOneManager manager;
     public PlayerTwoManager manager2;
     public PlayerTwoStats stats2;
-    public TextMeshProUGUI P1hpText;
-    public TextMeshProUGUI P2hpText;
     public TextMeshProUGUI P1stunText;
     public TextMeshProUGUI P2stunText;
     public TextMeshProUGUI p1block;
@@ -21,8 +19,6 @@ public class tempP1Health : MonoBehaviour
     {
         curHP = stats.health;
         curHP2 = stats2.health;
-        P1hpText.text = "TEMP HEALTH COUNTER \n Player 1 Hp: " + curHP;
-        P2hpText.text = "TEMP HEALTH COUNTER \n Player 2 Hp: " + curHP2;
         if (!manager.P1CanAttack && !manager.isBlocking)
         {
             P1stunText.text = "STUNNED!";

@@ -9,7 +9,7 @@ public class SceneChanger : MonoBehaviour
     public GameObject charMenu;
     public GameObject pauseMenu;
     public GameObject sureMenu;
-
+    public victoryDetector vdet;
     bool isPaused = false;
 
     void Start()
@@ -70,12 +70,14 @@ public class SceneChanger : MonoBehaviour
     {
         pauseMenu.SetActive(true);
         isPaused = true;
+        vdet.gameRunning = false;
     }
 
     public void ClosePauseMenu()
     {
         pauseMenu.SetActive(false);
         isPaused = false;
+        vdet.gameRunning = true;
     }
 
     public void ToMenu()
