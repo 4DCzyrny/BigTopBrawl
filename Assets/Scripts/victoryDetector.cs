@@ -6,15 +6,20 @@ public class victoryDetector : MonoBehaviour
 {
     public GameObject p1Victory;
     public GameObject p2Victory;
+    public GameObject timerEnded;
     public PlayerOneStats stats;
     public PlayerTwoStats stats2;
     public PlayerOneManager manager;
     public PlayerTwoManager manager2;
+    public float timer = 0f;
+    public float gameEnd = 99f;
 
     void Start()
     {
         p1Victory.SetActive(false);
         p2Victory.SetActive(false);
+        timerEnded.SetActive(false);
+        timer = 0f;
     }
     void Update()
     {
@@ -29,6 +34,14 @@ public class victoryDetector : MonoBehaviour
         if (stats.health <= 0)
         {
             p2Victory.SetActive(true);
+            manager.P1CanAttack = false;
+            manager.canMove = false;
+            manager2.P2CanAttack = false;
+            manager2.canMove = false;
+        }
+        if (timer == gameEnd)
+        {
+            timerEnded.SetActive(true);
             manager.P1CanAttack = false;
             manager.canMove = false;
             manager2.P2CanAttack = false;

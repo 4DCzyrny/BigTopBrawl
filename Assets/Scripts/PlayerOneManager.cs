@@ -26,6 +26,9 @@ public class PlayerOneManager : MonoBehaviour
     public Transform HitboxPointLeft;
     private Coroutine attackCoroutine;
 
+    // Animation Things
+    public Animator playerAnim;
+
     void Start()
     {
         // Movement
@@ -96,10 +99,12 @@ public class PlayerOneManager : MonoBehaviour
             if (horizontalInput != 0)
             {
                 rb.velocity = new Vector2(horizontalInput * playerStats.speed, rb.velocity.y);
+                playerAnim.SetBool("isWalking", true);
             }
             else
             {
-                rb.velocity = new Vector2(0, rb.velocity.y); 
+                rb.velocity = new Vector2(0, rb.velocity.y);
+                playerAnim.SetBool("isWalking", false);
             }
         }
     }
