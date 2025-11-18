@@ -130,7 +130,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      player wins finished -1_0: 5144838381305366303
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
