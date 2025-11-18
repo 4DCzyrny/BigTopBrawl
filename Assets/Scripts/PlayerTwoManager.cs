@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerTwoManager : MonoBehaviour
@@ -25,6 +26,14 @@ public class PlayerTwoManager : MonoBehaviour
     public Transform HitboxPointRight;
     public Transform HitboxPointLeft;
     private Coroutine attackCoroutine;
+    public PlayerOneStats player1Stats;
+    // Block Effect Things
+    public SpriteRenderer playerSpriteR;
+    private Color originalColor;
+    public Color blockColor = Color.blue; 
+    public float effectDuration = 1f;
+    public float fadeOutDuration = 0.5f;
+    private Coroutine blockCo;
 
     void Start()
     {
@@ -33,6 +42,7 @@ public class PlayerTwoManager : MonoBehaviour
         // Attacks
         P2Hitbox.SetActive(false);
         UpdateHitboxPosition();
+        originalColor = playerSpriteR.material.color;
     }
 
     // Update is called once per frame
@@ -130,7 +140,7 @@ public class PlayerTwoManager : MonoBehaviour
         canMove = false;
         canBlock = false;
         P2Hitbox.SetActive(true);
-        yield return new WaitForSeconds((float)0.75);
+        yield return new WaitForSeconds(playerStats.attackSpeed);
         P2Hitbox.SetActive(false);
         P2IsAttacking = false;
         canMove = true;
@@ -143,11 +153,11 @@ public class PlayerTwoManager : MonoBehaviour
         UpdateHitboxPosition();
         canMove = false;
         canBlock = false;
-        yield return new WaitForSeconds((float)1.5);
+        yield return new WaitForSeconds(playerStats.heavySpeed);
         if (!P2WasHit)
         {
             P2Hitbox.SetActive(true);
-            yield return new WaitForSeconds((float)0.5);
+            yield return new WaitForSeconds(playerStats.attackSpeed);
         }
         P2Hitbox.SetActive(false);
         P2IsAttacking = false;
@@ -156,11 +166,16 @@ public class PlayerTwoManager : MonoBehaviour
         yield break;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, int latCtr)
     {
-        if (isBlocking)
+        if (isBlocking || latCtr >= player1Stats.canHitAmount)
         {
             playerStats.health -= damage * playerStats.blockScore;
+            if (blockCo != null)
+            {
+                StopCoroutine(blockCo);
+            }
+            blockCo = StartCoroutine(BlockEffect());
         }
         else
         {
@@ -186,6 +201,20 @@ public class PlayerTwoManager : MonoBehaviour
         canBlock = true;
         attackCoroutine = null;
         yield break;
+    }
+
+    public IEnumerator BlockEffect()
+    {
+        playerSpriteR.material.color = blockColor;
+        yield return new WaitForSeconds(effectDuration);
+        float timer = 0f;
+        while (timer < fadeOutDuration)
+        {
+            timer += Time.deltaTime;
+            playerSpriteR.material.color = Color.Lerp(blockColor, originalColor, timer / fadeOutDuration);
+            yield return null;
+        }
+        playerSpriteR.material.color = originalColor;
     }
     
     void UpdateHitboxPosition()

@@ -13,4 +13,7 @@ public class PlayerTwoStats : ScriptableObject
     public float speed = 5f;
     public float jump = 5f;
     public float blockScore = 0.5f;
+    public float attackSpeed = 1f;
+    public float heavySpeed = 1f;
+    public float canHitAmount = 5f;
 }

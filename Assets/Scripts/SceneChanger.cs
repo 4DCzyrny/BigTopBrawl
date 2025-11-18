@@ -10,6 +10,8 @@ public class SceneChanger : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject sureMenu;
     public victoryDetector vdet;
+    public PlayerOneStats p1st;
+    public PlayerTwoStats p2st;
     bool isPaused = false;
 
     void Start()
@@ -38,7 +40,10 @@ public class SceneChanger : MonoBehaviour
 
     public void PlayButton()
     {
-        SceneManager.LoadScene("Arena");
+        if (p1st.id != 0 && p2st.id != 0)
+        {
+            SceneManager.LoadScene("Arena");
+        }
     }
 
     public void OpenCharSelect()
